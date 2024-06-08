@@ -18,9 +18,8 @@ const router = Router();
 // POST route for adding a new customer
 router.post("/", validateCustomer, createCustomerController);
 
-/* // GET route for fetching all customers
+// GET route for fetching all customers
 router.get("/", bodyContentBlocker, getAllCustomersController);
- */
 
 // GET route for customer profile
 router.get("/profile", bodyContentBlocker, getCustomerByIdController);
