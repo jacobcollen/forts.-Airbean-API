@@ -1,4 +1,4 @@
-# API Documentation
+# Forts.-Airbean-API API Documentation
 
 When starting the server with no db files, the products database will autofill. The database for customers will insert a guest user thats logged in by default.
 
