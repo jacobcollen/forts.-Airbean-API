@@ -18,7 +18,7 @@ async function initializeUserDatabase() {
       };
       const defaultCustomer = {
         firstName: "Customer",
-        lastName: "Doe",
+        lastName: "Customerson",
         email: "customer@example.com",
         password: "customerpassword",
         phoneNumber: "8888888888",

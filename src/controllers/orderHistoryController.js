@@ -1,10 +1,13 @@
 import { getAllOrderHistories, getOrderHistoryById } from "../services/orderHistory.js";
-import { findLoggedInCustomer } from "../utils/findLoggedUser.js";
+import { findLoggedInUser } from "../utils/findLoggedUser.js"; // Update import to findLoggedInUser
 
 export const getOrderHistory = async (req, res) => {
-  const loggedInCustomer = await findLoggedInCustomer();
-  const id = loggedInCustomer._id;
   try {
+    const loggedInUser = await findLoggedInUser();
+    if (!loggedInUser) {
+      return res.status(401).json({ message: "User not logged in" });
+    }
+    const id = loggedInUser._id;
     const orderHistory = await getOrderHistoryById(id);
     return res.status(200).json(orderHistory);
   } catch (error) {

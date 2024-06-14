@@ -1,16 +1,16 @@
 import express from "express";
 import { createOrder, getOrderById } from "../services/orders.js";
-import { getCart } from "../routes/cart.js"; // Import the getCart function
+import { getCart } from "../routes/cart.js";
 import { calculateTotalPrice } from "../routes/cart.js";
 import { bodyContentBlocker } from "../middleware/bodyContentBlocker.js";
-import { findLoggedInCustomer } from "../utils/findLoggedUser.js";
+import { findLoggedInUser } from "../utils/findLoggedUser.js";
 
 const router = express.Router({ mergeParams: true });
 
 //Place order
 router.post("/", bodyContentBlocker, async (req, res) => {
-  const loggedInCustomer = await findLoggedInCustomer();
-  const userId = loggedInCustomer._id;
+  const loggedInUser = await findLoggedInUser();
+  const userId = loggedInUser._id;
   const cart = getCart(userId); // Fetch the user's specific cart
 
   const totalPrice = calculateTotalPrice(cart);
@@ -23,8 +23,8 @@ router.post("/", bodyContentBlocker, async (req, res) => {
 
 //See specific order
 router.get("/:orderId", bodyContentBlocker, async (req, res) => {
-  const loggedInCustomer = await findLoggedInCustomer();
-  const userId = loggedInCustomer._id;
+  const loggedInUser = await findLoggedInUser();
+  const userId = loggedInUser._id;
   const orderId = req.params.orderId;
   const result = await getOrderById(userId, orderId);
   res.status(result.status).json(result.response);

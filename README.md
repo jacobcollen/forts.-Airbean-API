@@ -4,7 +4,7 @@ When starting the server with no db files, the products database will autofill. 
 
 ## User Operations
 
-### Create New User (Admin or Customer)
+### Create New User Customer (Scroll for create admin documentation)
 
 **Method:** POST  
 **URL:** `http://localhost:3000/user/account`
@@ -12,11 +12,11 @@ When starting the server with no db files, the products database will autofill. 
 **Request Body (JSON):**
 ```JSON
 {
-    "firstName": "John",
-    "lastName": "Doe",
-    "email": "john.doe@example.com",
-    "password": "password123",
-    "phoneNumber": "1234567890",
+    "firstName": "Customer",
+    "lastName": "Customerson",
+    "email": "customer@example.com",
+    "password": "customerpassword",
+    "phoneNumber": "8888888888",
     "role": "customer"
 }
 ```
