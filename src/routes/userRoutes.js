@@ -24,7 +24,7 @@ router.get("/", authenticateToken, verifyAdmin, getAllUsersController);
 router.get("/profile", authenticateToken, getUserByIdController);
 
 // PUT route for updating user info
-router.put("/", authenticateToken, validateCustomer, updateUserController);
+router.put("/", authenticateToken, validateUser, updateUserController);
 
 // DELETE route for deleting user
 router.delete("/", authenticateToken, preventGuest, deleteUserController);

@@ -1,0 +1,2 @@
+{"firstName":"Admin","lastName":"Adminson","email":"admin@adminmail.com","password":"adminpassword","phoneNumber":"9999999999","role":"admin","loggedIn":false,"_id":"ANjWJKg8HZl6sOsF"}
+{"firstName":"Customer","lastName":"Doe","email":"customer@example.com","password":"customerpassword","phoneNumber":"8888888888","role":"customer","loggedIn":false,"_id":"r4vf8sD15HIuUnxG"}
