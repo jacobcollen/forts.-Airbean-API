@@ -1,19 +1,38 @@
-import { logoutCustomer } from "../services/logout.js";
-import { findLoggedInCustomer } from "../utils/findLoggedCustomer.js";
+import { logoutUser } from "../services/logout.js";
+import { findLoggedInUser } from "../utils/findLoggedUser.js";
+import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
 
-// Controller function for user logout
+dotenv.config();
+
+const secret = process.env.JWT_SECRET;
+
+if (!secret) {
+    console.error("JWT_SECRET is not set in the environment variables");
+    process.exit(1);
+}
+
 export async function logoutController(req, res) {
   try {
-    const loggedInCustomer = await findLoggedInCustomer();
-    const customerId = loggedInCustomer._id;
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return res.status(401).json({ message: 'Unauthorized' });
+    }
 
-    // Call the logout service function
-    const response = await logoutCustomer(customerId);
+    const token = authHeader.split(' ')[1];
 
-    // Return a success response
+    const decoded = jwt.verify(token, secret);
+    const userEmail = decoded.email;
+
+    const loggedInUser = await findLoggedInUser(userEmail);
+    if (!loggedInUser) {
+      throw new Error("No logged in user found");
+    }
+
+    const response = await logoutUser(loggedInUser._id);
+
     return res.status(200).json(response);
   } catch (error) {
-    // If a custom status code is set, use it; otherwise, default to 500
     const statusCode = error.statusCode || 500;
     return res.status(statusCode).json({ message: error.message });
   }

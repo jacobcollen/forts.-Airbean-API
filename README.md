@@ -1,92 +1,209 @@
-# Forts.-Airbean-API API Documentation
+# Airbean-API - API Documentation
 
-When starting the server with no db files, the products database will autofill. The database for customers will insert a guest user thats logged in by default.
+When starting the server with no db files, the products database will autofill. The database for users will insert a default admin and customer.
 
-The guest user is limited to some operations to limit potential bugs. The Guest cannot log itself out, update or delete itself.
+## User Operations
 
-You can create a new customer and login on that account to access more API requests.
+### Create New User (Admin or Customer)
 
+**Method:** POST  
+**URL:** `http://localhost:3000/user/account`
 
-## CUSTOMERS
-
-**POST** new customer http://localhost:3000/customers
-
-You can copy and paste the json below to create a new customer. Change whatever you like and see what works and what doesn't.
-
-```json
+**Request Body (JSON):**
+```JSON
 {
-	"firstName": "Test",
-	"lastName": "Tester",
-	"email": "testman@testmail.com",
-	"password": "thisisatest",
-	"phoneNumber": "101010010011"
+    "firstName": "John",
+    "lastName": "Doe",
+    "email": "john.doe@example.com",
+    "password": "password123",
+    "phoneNumber": "1234567890",
+    "role": "customer"
 }
 ```
 
-**GET** Profile page for logged in customer. http://localhost:3000/customers/profile  
+### Get All Users
 
-**PUT** Update logged in customer information. Guests can't update the guest account. http://localhost:3000/customers
+**Method:** GET  
+**URL:** `http://localhost:3000/user`
 
-Copy paste this json into the request body to update user
+**Authorization:** Required (Admin only)  
+**Description:** Retrieves all users. This operation is restricted to admin users.
 
-```json
+### Get Profile
+
+**Method:** GET  
+**URL:** `http://localhost:3000/user/profile`
+
+**Authorization:** Required  
+**Description:** Retrieves the profile of the logged-in user.
+
+### Delete User
+
+**Method:** DELETE  
+**URL:** `http://localhost:3000/user`
+
+**Authorization:** Required  
+**Description:** Delete the logged-in user.
+
+## Login Operations
+
+### Login User
+
+**Method:** POST  
+**URL:** `http://localhost:3000/login`
+
+**Request Body (JSON):**
+```JSON
 {
-	"firstName": "TestUpdated",
-	"lastName": "TesterUpdated",
-	"email": "testmanUpdated@testmail.com",
-	"password": "thisisatest",
-	"phoneNumber": "000111000"
+    "email": "customer@example.com",
+    "password": "customerpassword"
 }
 ```
 
-**DELETE** Delete logged in customer. Guests can't delete the guest account http://localhost:3000/customers
+### Logout User
 
-## LOGIN
+**Method:** POST  
+**URL:** `http://localhost:3000/logout`
 
-**POST** login user http://localhost:3000/login
+**Description:** Logout the currently logged-in user.
 
-Send valid json data in the request body. A user logs in by entering valid email and phone number values. Below is the test users email and password in json.
+### Admin Login
 
-```json
+**Method:** POST  
+**URL:** `http://localhost:3000/login`
+
+**Request Body (JSON):**
+```JSON
 {
-	"email": "testman@testmail.com",
-	"password": "thisisatest"
+    "email": "admin@adminmail.com",
+    "password": "adminpassword"
 }
 ```
 
-## LOGOUT
+## Products
 
-**POST** logout user http://localhost:3000/logout
+### Get All Products
 
-## PRODUCTS
+**Method:** GET  
+**URL:** `http://localhost:3000/products`
 
-**GET** all products http://localhost:3000/products
+**Description:** Retrieve all products.
 
-## CART
+## Cart Operations
 
-**GET** cart http://localhost:3000/cart
+### Get Cart
 
-**POST** Add product to logged in customer cart using product _id as route parameter http://localhost:3000/cart/:productId
+**Method:** GET  
+**URL:** `http://localhost:3000/cart`
 
-**DELETE** product from customer cart using product _id as route parameter http://localhost:3000/cart/:productID
+**Description:** Retrieve the cart of the logged-in user.
 
-## ORDER
+### Add Product to Cart
 
-**POST** new order. This will empty the customer cart and send the cart items into the customers unique order history object in the orderHistory.db http://localhost:3000/orders
+**Method:** POST  
+**URL:** `http://localhost:3000/cart/:productId`
 
-**GET** specific order to see delivery time and other info. http://localhost:3000/orders/:orderId
-Use the order ID provided in the response from the POST operation.
+**Description:** Add a product to the logged-in user's cart using the product ID as a route parameter.
 
+### Remove Product from Cart
 
-## ORDER HISTORY 
+**Method:** DELETE  
+**URL:** `http://localhost:3000/cart/:productId`
 
-**GET** specific customer order history http://localhost:3000/order-history
+**Description:** Remove a product from the logged-in user's cart using the product ID as a route parameter.
 
+## Order Operations
 
-## ABOUT
+### Create New Order
 
-**GET** about information http://localhost:3000/about
+**Method:** POST  
+**URL:** `http://localhost:3000/orders`
 
+**Description:** Create a new order. This will empty the user's cart and add the items to the user's order history.
 
+### Get Specific Order
 
+**Method:** GET  
+**URL:** `http://localhost:3000/orders/:orderId`
 
+**Description:** Retrieve details of a specific order using the order ID provided in the response from the POST operation.
+
+## Order History
+
+### Get Order History
+
+**Method:** GET  
+**URL:** `http://localhost:3000/order-history`
+
+**Description:** Retrieve the order history of the logged-in user.
+
+## About
+
+### Get About Information
+
+**Method:** GET  
+**URL:** `http://localhost:3000/about`
+
+**Description:** Retrieve about information.
+
+## Admin Operations
+
+### Create New Admin
+
+**Method:** POST  
+**URL:** `http://localhost:3000/user/account`
+
+**Description:** Use the provided data to create a new admin.
+
+**Request Body (JSON):**
+```JSON
+{
+    "firstName": "Admin",
+    "lastName": "Adminson",
+    "email": "admin@adminmail.com",
+    "password": "adminpassword",
+    "phoneNumber": "9999999999",
+    "role": "admin"
+}
+```
+
+## Product Management
+
+### Add New Product
+
+**Method:** POST  
+**URL:** `http://localhost:3000/products`
+
+**Description:** Use the provided data to add a new product.
+
+**Request Body (JSON):**
+```JSON
+{
+    "name": "NewProduct",
+    "description": "Description of the new product",
+    "price": 55 
+}
+```
+
+### Update Existing Product
+
+**Method:** PUT  
+**URL:** `http://localhost:3000/products/:productId`
+
+**Description:** Update an existing product using the product ID as a route parameter. Use the provided data to update a product.
+
+**Request Body (JSON):**
+```JSON
+{
+    "name": "UpdatedProduct",
+    "description": "Updated description of the product",
+    "price": 65
+}
+```
+
+### Remove Product
+
+**Method:** DELETE  
+**URL:** `http://localhost:3000/products/:productId`
+
+**Description:** Remove a product using the product ID as a route parameter.

@@ -1,31 +1,52 @@
 import { findCustomerByEmail, getAllCustomers } from "./customers.js";
-import { updateCustomerLoggedInStatus } from "../utils/updateLoggedInStatus.js";
+import { findAdminByEmail } from "./admin.js";
+import jwt from "jsonwebtoken";
 
-// Function to handle user login
+const secret = process.env.JWT_SECRET;
+
+// Function to handle customer login
 export async function loginCustomer(email, password) {
-  // Find the customer by email
+
   const customer = await findCustomerByEmail(email);
 
   if (!customer) {
     throw new Error("Invalid email");
   }
 
-  // Check if the password matches
   if (customer.password === password) {
-    // Check if another customer is logged in
-    const customers = await getAllCustomers();
-    const loggedInCustomer = customers.find((customer) => customer.loggedIn);
 
-    // If another customer is logged in, set their loggedIn status to false
+    const customers = await getAllCustomers();
+    const loggedInCustomer = customers.find((cust) => cust.loggedIn);
+
     if (loggedInCustomer) {
+
       await updateCustomerLoggedInStatus(loggedInCustomer._id, false);
     }
-    // Update the loggedIn status to true and get the updated customer
-    const updatedCustomer = await updateCustomerLoggedInStatus(
-      customer._id,
-      true
-    );
-    return { message: "Login successful", customer: updatedCustomer };
+
+    const updatedCustomer = await updateCustomerLoggedInStatus(customer._id, true);
+
+    const token = jwt.sign({ email: customer.email, role: "customer" }, secret, { expiresIn: '1h' });
+
+    return { message: "Login successful", customer: updatedCustomer, token };
+  } else {
+    throw new Error("Invalid password");
+  }
+}
+
+// Function to handle admin login
+export async function loginAdmin(email, password) {
+
+  const admin = await findAdminByEmail(email);
+
+  if (!admin) {
+    throw new Error("Invalid email");
+  }
+
+  if (password === admin.password) {
+    
+    const token = jwt.sign({ email: admin.email, role: "admin" }, secret, { expiresIn: '1h' });
+
+    return { message: "Admin logged in successfully", token };
   } else {
     throw new Error("Invalid password");
   }
