@@ -1,9 +1,9 @@
 // loggingMiddleware.js
 function routeLogger(message) {
   return function (req, res, next) {
-    const customerId = req.params.id;
+    const userId = req.params.id;
     const logMessage = {
-      customerId: customerId,
+      userId: userId,
       message: message,
     };
     console.log(logMessage);

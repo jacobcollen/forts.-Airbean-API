@@ -1,9 +1,6 @@
 import express from "express";
 import { bodyContentBlocker } from "../middleware/bodyContentBlocker.js";
-import {
-  getOrderHistory,
-  //getAllOrderHistoriesHandler,
-} from "../controllers/orderHistoryController.js";
+import { getOrderHistory, getAllOrderHistoriesHandler } from "../controllers/orderHistoryController.js";
 import { preventGuest } from "../middleware/preventGuest.js";
 
 const router = express.Router();

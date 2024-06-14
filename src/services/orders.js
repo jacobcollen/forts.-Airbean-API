@@ -1,9 +1,20 @@
 import { createOrUpdateOrderHistory } from "./orderHistory.js";
-import { getCustomerById } from "./customers.js"; // Ensure this is correctly imported
+import { userDatabase } from "../services/user.js";
 import { orderHistoryDb } from "./orderHistory.js";
+import { findLoggedInUser } from "../utils/findLoggedUser.js";
 
-const createOrder = async (userId, cart, totalPrice) => {
+const createOrder = async (cart) => {
   try {
+    const loggedInUser = await findLoggedInUser();
+    if (!loggedInUser) {
+      return {
+        status: 401,
+        response: { error: "User not logged in" },
+      };
+    }
+
+    const userId = loggedInUser._id;
+
     if (cart.length === 0) {
       return {
         status: 400,
@@ -11,13 +22,18 @@ const createOrder = async (userId, cart, totalPrice) => {
       };
     }
 
-    const customer = await getCustomerById(userId); // Check if the user exists
+    const user = await userDatabase.findOne({ _id: userId });
+    if (!user) {
+      return {
+        status: 404,
+        response: { error: "User not found" },
+      };
+    }
 
     const prelTime = new Date();
     const prelDelTime = new Date(prelTime.getTime() + 20 * 60000); // 20 minutes from placed order
 
     function formatDate(date) {
-      // Get the components of the date
       const year = date.getUTCFullYear();
       const month = String(date.getUTCMonth() + 1).padStart(2, "0");
       const day = String(date.getUTCDate()).padStart(2, "0");
@@ -25,7 +41,6 @@ const createOrder = async (userId, cart, totalPrice) => {
       const minutes = String(date.getUTCMinutes()).padStart(2, "0");
       const seconds = String(date.getUTCSeconds()).padStart(2, "0");
 
-      // Format the date as desired
       return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
     }
 
@@ -33,18 +48,18 @@ const createOrder = async (userId, cart, totalPrice) => {
     const deliveryTime = formatDate(prelDelTime);
 
     const newOrder = {
-      orderId: Math.floor(Math.random() * 1000000), //generate random orderId
+      orderId: Math.floor(Math.random() * 1000000), // generate random orderId
       userId,
       items: [...cart],
-      totalPrice: totalPrice,
-      orderTime: orderTime,
-      deliveryTime: deliveryTime,
+      totalPrice: calculateTotalPrice(cart),
+      orderTime,
+      deliveryTime,
     };
 
     const orderHistoryData = {
       userId,
-      firstName: customer.firstName,
-      totalPrice: totalPrice,
+      firstName: user.firstName,
+      totalPrice: newOrder.totalPrice,
       orders: [newOrder],
     };
 
@@ -55,8 +70,7 @@ const createOrder = async (userId, cart, totalPrice) => {
     return {
       status: 201,
       response: {
-        message:
-          "Order has been sent. Enter your order ID to see delivery time",
+        message: "Order has been placed successfully",
         orderId: newOrder.orderId,
       },
     };
@@ -68,37 +82,39 @@ const createOrder = async (userId, cart, totalPrice) => {
   }
 };
 
-const getOrderById = async (userId, orderId) => {
-  const fetchOrderByIdFromDatabase = async (userId, orderId) => {
-    try {
-      // Find the order history document for the user
-      const orderHistory = await orderHistoryDb.findOne({ userId: userId });
-      if (!orderHistory) {
-        return null;
-      }
-
-      // Find the specific order within the orders array
-      const order = orderHistory.orders.find(
-        (order) => order.orderId === parseInt(orderId, 10)
-      );
-      return order;
-    } catch (error) {
-      throw new Error("Failed to fetch order: " + error.message);
-    }
-  };
-
+const getOrderById = async (orderId) => {
   try {
-    await getCustomerById(userId); // Ensure user exists
+    const loggedInUser = await findLoggedInUser();
+    if (!loggedInUser) {
+      return {
+        status: 401,
+        response: { error: "User not logged in" },
+      };
+    }
 
-    // Fetch the order from the order history database
-    const order = await fetchOrderByIdFromDatabase(userId, orderId);
+    const userId = loggedInUser._id;
+
+    // Find the order history document for the user
+    const orderHistory = await orderHistoryDb.findOne({ userId });
+    if (!orderHistory) {
+      return {
+        status: 404,
+        response: { error: "Order history not found" },
+      };
+    }
+
+    // Find the specific order within the orders array
+    const order = orderHistory.orders.find(
+      (order) => order.orderId === parseInt(orderId, 10)
+    );
 
     if (!order) {
       return {
         status: 404,
-        response: { error: "Order NOT found!" },
+        response: { error: "Order not found" },
       };
     }
+
     return {
       status: 200,
       response: order,

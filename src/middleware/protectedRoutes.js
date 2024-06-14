@@ -1,9 +1,9 @@
-import { getCustomerById } from "../services/customers.js";
+import { getUserById } from "../services/user.js";
 
 // Route middleware for protected routes
 const protectedRoute = async (req, res, next) => {
   try {
-    await getCustomerById(req.params.id);
+    await getUserById(req.params.id);
     next();
   } catch (error) {
     // Return the error message from the service function

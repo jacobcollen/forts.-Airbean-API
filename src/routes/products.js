@@ -1,17 +1,18 @@
 import { Router } from "express";
-//import { validateProduct } from "../middleware/productValidation.js"; // Import the validation middleware
+import { validateProduct } from "../middleware/productValidation.js";
 import {
-  // createProduct,
+  createProduct,
   getAllProducts,
   getProductById,
-  // updateProduct,
-  // deleteProduct,
+  updateProduct,
+  deleteProduct,
 } from "../services/product.js";
 import { bodyContentBlocker } from "../middleware/bodyContentBlocker.js";
+import { authenticateToken, verifyAdmin } from '../middleware/auth.js';
 
 const router = Router();
 
-// URL for CRUD operations: localhost:3000/api/products
+// URL for CRUD operations: localhost:3000/products
 
 // GET all menu items
 router.get("/", bodyContentBlocker, async (req, res) => {
@@ -19,8 +20,8 @@ router.get("/", bodyContentBlocker, async (req, res) => {
   res.json(products);
 });
 
-// POST new menu item
-router.post("/", validateProduct, async (req, res) => {
+// POST new menu item (admin only)
+router.post("/", authenticateToken, verifyAdmin, validateProduct, async (req, res) => {
   const newProduct = req.body;
   await createProduct(newProduct);
   res.status(201).json(newProduct);
@@ -37,8 +38,8 @@ router.get("/:id", bodyContentBlocker, async (req, res) => {
   }
 });
 
-// UPDATE menu item by _id
-router.put("/:id", validateProduct, async (req, res) => {
+// UPDATE menu item by _id (admin only)
+router.put("/:id", authenticateToken, verifyAdmin, validateProduct, async (req, res) => {
   const id = req.params.id;
   const updatedProduct = req.body;
   try {
@@ -53,8 +54,8 @@ router.put("/:id", validateProduct, async (req, res) => {
   }
 });
 
-// DELETE menu item by _id
-router.delete("/:id", bodyContentBlocker, async (req, res) => {
+// DELETE menu item by _id (admin only)
+router.delete("/:id", authenticateToken, verifyAdmin, bodyContentBlocker, async (req, res) => {
   const id = req.params.id;
   try {
     await deleteProduct(id);

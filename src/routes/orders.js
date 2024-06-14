@@ -3,7 +3,7 @@ import { createOrder, getOrderById } from "../services/orders.js";
 import { getCart } from "../routes/cart.js"; // Import the getCart function
 import { calculateTotalPrice } from "../routes/cart.js";
 import { bodyContentBlocker } from "../middleware/bodyContentBlocker.js";
-import { findLoggedInCustomer } from "../utils/findLoggedCustomer.js";
+import { findLoggedInCustomer } from "../utils/findLoggedUser.js";
 
 const router = express.Router({ mergeParams: true });
 

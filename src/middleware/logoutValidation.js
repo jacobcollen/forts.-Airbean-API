@@ -1,4 +1,4 @@
-import { getCustomerById } from "../services/customers.js";
+import { getCustomerById } from "../services/user.js";
 
 // Validation middleware for logout
 export async function validateLogout(req, res, next) {

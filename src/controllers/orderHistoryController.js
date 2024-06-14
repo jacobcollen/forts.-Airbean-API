@@ -1,8 +1,5 @@
-import {
-  getAllOrderHistories,
-  getOrderHistoryById,
-} from "../services/orderHistory.js";
-import { findLoggedInCustomer } from "../utils/findLoggedCustomer.js";
+import { getAllOrderHistories, getOrderHistoryById } from "../services/orderHistory.js";
+import { findLoggedInCustomer } from "../utils/findLoggedUser.js";
 
 export const getOrderHistory = async (req, res) => {
   const loggedInCustomer = await findLoggedInCustomer();

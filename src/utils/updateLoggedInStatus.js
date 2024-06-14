@@ -1,4 +1,4 @@
-import { database } from "../services/customers.js";
+import { database } from "../services/user.js";
 
 //Function that updates the loggedIn flag for a user
 //This is being used when a customer is being deleted, logged out or logged in.

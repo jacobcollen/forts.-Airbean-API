@@ -9,7 +9,7 @@ const emailRegex = /^[a-zA-Z]+@[a-zA-Z]+\.[a-zA-Z]+$/;
 // Password regex allowing only a-z, A-Z, and numbers 1-9
 const passwordRegex = /^[a-zA-Z1-9]+$/;
 
-const customerSchema = Joi.object({
+const userSchema = Joi.object({
   firstName: Joi.string().pattern(swedishAlphabetRegex).required().messages({
     "string.pattern.base":
       '"firstName" can only contain letters from the Swedish alphabet (a-ö, A-Ö)',
@@ -30,6 +30,9 @@ const customerSchema = Joi.object({
   phoneNumber: Joi.number().messages({
     "number.base": '"phoneNumber" must be a number',
   }),
+  role: Joi.string().valid('user', 'admin').default('user').messages({
+    "any.only": '"role" must be either "user" or "admin"'
+  })
 }).options({ allowUnknown: false }); // Disallow unknown properties
 
-export default customerSchema;
+export default userSchema;

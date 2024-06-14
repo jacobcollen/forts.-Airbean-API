@@ -38,10 +38,13 @@ const defaultProducts = [
 // Add new menu item
 async function createProduct(product) {
   try {
-    const newProduct = await database.insert(product);
+    const productWithDate = { ...product, createdAt: new Date() };
+    const newProduct = await database.insert(productWithDate);
     console.log(newProduct);
+    return newProduct;
   } catch (error) {
     console.error(error);
+    throw error;
   }
 }
 
@@ -84,7 +87,7 @@ async function updateProduct(id, updatedProduct) {
     return result;
   } catch (error) {
     console.error(error);
-    throw error; // Re-throw the error to be caught by the route handler
+    throw error;
   }
 }
 
@@ -94,7 +97,6 @@ async function deleteProduct(id) {
     const deletedProduct = await database.remove({ _id: id });
 
     if (deletedProduct === 0) {
-      // Throw a 404 error if no document was deleted
       const error = new Error("Product not found");
       error.status = 404;
       throw error;
@@ -104,7 +106,7 @@ async function deleteProduct(id) {
     console.log(deletedProduct);
   } catch (error) {
     console.error(error);
-    throw error; // Re-throw the error to be caught in the route handler
+    throw error;
   }
 }
 

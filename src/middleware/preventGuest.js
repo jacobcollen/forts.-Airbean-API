@@ -1,11 +1,11 @@
-import { findLoggedInCustomer } from "../utils/findLoggedCustomer.js";
+import { findLoggedInUser } from "../utils/findLoggedUser.js";
 
 //Prevent guest account from updating itself
 
 export async function preventGuest(req, res, next) {
-  const loggedInCustomer = await findLoggedInCustomer();
+  const loggedInUser = await findLoggedInUser();
 
-  if (loggedInCustomer && loggedInCustomer._id === "guestintest") {
+  if (loggedInUser && loggedInUser._id === "guestintest") {
     return res.status(403).json({
       message: "Guests cannot execute this operation",
     });

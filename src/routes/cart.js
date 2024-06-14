@@ -1,10 +1,10 @@
 import { Router } from "express";
 import { getProductById } from "../services/product.js";
 import { bodyContentBlocker } from "../middleware/bodyContentBlocker.js";
-import { findLoggedInCustomer } from "../utils/findLoggedCustomer.js";
+import { findLoggedInUser } from "../utils/findLoggedUser.js";
 
 const router = Router({ mergeParams: true });
-const carts = {}; // Object to store carts for each customer
+const carts = {}; // Object to store carts for each user
 
 // Calculate total price of items in the cart
 const calculateTotalPrice = (cart) => {
@@ -18,63 +18,34 @@ const calculateTotalPrice = (cart) => {
 };
 
 // Find or create cart
-const getCart = (customerId) => {
-  if (!carts[customerId]) {
-    carts[customerId] = [];
+const getCart = (userId) => {
+  if (!carts[userId]) {
+    carts[userId] = [];
   }
-  return carts[customerId];
+  return carts[userId];
 };
 
 // GET cart
 router.get("/", bodyContentBlocker, async (req, res, next) => {
-  const loggedInCustomer = await findLoggedInCustomer();
-  const customerId = loggedInCustomer._id;
-  const cart = getCart(customerId);
-
-  if (cart.length === 0) {
-    return res.json({
-      message: "Din varukorg är tom",
-    });
-  }
-
-  const totalPrice = calculateTotalPrice(cart);
-  console.log(totalPrice);
-
-  res.status(200).json({
-    success: true,
-    status: 200,
-    data: {
-      cart,
-      totalPrice,
-    },
-  });
-});
-
-//POST add product to cart
-router.post("/:productId", bodyContentBlocker, async (req, res, next) => {
-  const loggedInCustomer = await findLoggedInCustomer();
-  const customerId = loggedInCustomer._id;
-  const productId = req.params.productId;
   try {
-    const foundItem = await getProductById(productId);
+    const loggedInUser = await findLoggedInUser();
+    if (!loggedInUser) {
+      return res.status(404).json({ message: "No logged in user found" });
+    }
+    const userId = loggedInUser._id;
+    const cart = getCart(userId);
 
-    if (!foundItem) {
-      return res.status(404).json({
-        success: false,
-        status: 404,
-        message: "Produkten du försöker lägga till existerar inte.",
+    if (cart.length === 0) {
+      return res.json({
+        message: "Your cart is empty",
       });
     }
-
-    const cart = getCart(customerId);
-    cart.push(foundItem);
 
     const totalPrice = calculateTotalPrice(cart);
 
     res.status(200).json({
       success: true,
       status: 200,
-      message: "Produkt tillagd i varukorgen",
       data: {
         cart,
         totalPrice,
@@ -85,36 +56,81 @@ router.post("/:productId", bodyContentBlocker, async (req, res, next) => {
   }
 });
 
-//DELETE delete product from cart
-router.delete("/:productId", bodyContentBlocker, async (req, res, next) => {
-  const loggedInCustomer = await findLoggedInCustomer();
-  const customerId = loggedInCustomer._id;
-  const productId = req.params.productId;
-  const cart = getCart(customerId);
-  const foundItemIndex = cart.findIndex((item) => item._id === productId);
+// POST add product to cart
+router.post("/:productId", bodyContentBlocker, async (req, res, next) => {
+  try {
+    const loggedInUser = await findLoggedInUser();
+    if (!loggedInUser) {
+      return res.status(404).json({ message: "No logged in user found" });
+    }
+    const userId = loggedInUser._id;
+    const productId = req.params.productId;
+    const foundItem = await getProductById(productId);
 
-  if (foundItemIndex === -1) {
-    return res.status(404).json({
-      success: false,
-      status: 404,
-      message: "Produkten du försöker ta bort finns inte i varukorgen",
+    if (!foundItem) {
+      return res.status(404).json({
+        success: false,
+        status: 404,
+        message: "The product you are trying to add does not exist.",
+      });
+    }
+
+    const cart = getCart(userId);
+    cart.push(foundItem);
+
+    const totalPrice = calculateTotalPrice(cart);
+
+    res.status(200).json({
+      success: true,
+      status: 200,
+      message: "Product added to cart",
+      data: {
+        cart,
+        totalPrice,
+      },
     });
+  } catch (error) {
+    next(error);
   }
+});
 
-  cart.splice(foundItemIndex, 1);
+// DELETE delete product from cart
+router.delete("/:productId", bodyContentBlocker, async (req, res, next) => {
+  try {
+    const loggedInUser = await findLoggedInUser();
+    if (!loggedInUser) {
+      return res.status(404).json({ message: "No logged in user found" });
+    }
+    const userId = loggedInUser._id;
+    const productId = req.params.productId;
+    const cart = getCart(userId);
+    const foundItemIndex = cart.findIndex((item) => item._id === productId);
 
-  const totalPrice = calculateTotalPrice(cart);
+    if (foundItemIndex === -1) {
+      return res.status(404).json({
+        success: false,
+        status: 404,
+        message: "The product you are trying to remove is not in the cart",
+      });
+    }
 
-  res.status(200).json({
-    success: true,
-    status: 200,
-    message: "Produkt borttagen från varukorgen",
-    data: {
-      cart,
-      totalPrice,
-    },
-  });
+    cart.splice(foundItemIndex, 1);
+
+    const totalPrice = calculateTotalPrice(cart);
+
+    res.status(200).json({
+      success: true,
+      status: 200,
+      message: "Product removed from cart",
+      data: {
+        cart,
+        totalPrice,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
 });
 
 export default router;
-export { getCart, calculateTotalPrice }; // Ensure getCart is exported
+export { getCart, calculateTotalPrice };
