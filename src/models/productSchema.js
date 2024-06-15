@@ -20,6 +20,6 @@ const productSchema = Joi.object({
     "number.positive": '"price" should be a positive number',
     "any.required": '"price" is a required field',
   }),
-}).options({ allowUnknown: false }); // Disallow unknown properties
+}).options({ allowUnknown: false });
 
 export default productSchema;

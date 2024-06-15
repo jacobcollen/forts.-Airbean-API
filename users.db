@@ -1,2 +1,6 @@
 {"firstName":"Admin","lastName":"Adminson","email":"admin@adminmail.com","password":"adminpassword","phoneNumber":"9999999999","role":"admin","loggedIn":false,"_id":"ANjWJKg8HZl6sOsF"}
+{"firstName":"Mamma","lastName":"Adminson","email":"mamma@adminmail.com","password":"jacobadminpassword","phoneNumber":"5555555555","role":"admin","_id":"Kv5VWf5eVn7nkE9B","loggedIn":true}
+{"firstName":"Jacob","lastName":"Collen","email":"Jacob@example.com","password":"jacobpassword","phoneNumber":"7777777777","role":"user","_id":"Nk3DzZcZuTomgEdZ","loggedIn":true}
+{"firstName":"Jacob","lastName":"Adminson","email":"jacob@adminmail.com","password":"jacobadminpassword","phoneNumber":"5555555555","role":"admin","_id":"bxgjyLBJ8Oa7YCjh"}
 {"firstName":"Customer","lastName":"Doe","email":"customer@example.com","password":"customerpassword","phoneNumber":"8888888888","role":"customer","loggedIn":false,"_id":"r4vf8sD15HIuUnxG"}
+{"firstName":"Marcus","lastName":"Adminson","email":"marcus@adminmail.com","password":"jacobadminpassword","phoneNumber":"5555555555","role":"admin","_id":"vzJLQUSVeSJzHjj2"}

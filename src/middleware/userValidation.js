@@ -1,8 +1,5 @@
 import userSchema from "../models/userSchema.js";
-import {
-  findUserByEmail,
-} from "../services/user.js";
-import { findLoggedInUser } from "../utils/findLoggedUser.js";
+import { findUserByEmail } from "../services/user.js";
 
 // Validation for creating or updating a user
 export async function validateUser(req, res, next) {
