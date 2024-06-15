@@ -4,8 +4,8 @@ import { userDatabase } from "./user.js";
 export async function logoutUser(userId) {
   try {
     await userDatabase.update({ _id: userId }, { $set: { loggedIn: false } });
-    return { message: "User logged out successfully" };
+    return { message: "User Logged Out Successfully" };
   } catch (error) {
-    throw new Error("Failed to logout user");
+    throw new Error("Failed to Logout User");
   }
 }

@@ -3,16 +3,25 @@
 
 When starting the server with no db files, the products database will autofill. The database for users will insert a default admin and customer.
 
-Admin management: To obtain the JWT token, you need to log in with admin credentials using the login endpoint and copy the token provided in the response. This token will then be used in the Authorization header for the admin only requests.
+Admin management: To obtain the JWT token, you need to log in with admin credentials using the login endpoint and copy the token provided in the response. This token will then be used in the Authorization header for admin-only requests.
+
+## Authentication and Authorization
+
+For endpoints requiring authentication:
+
+**Authentication Type:** Bearer Token  
+**Token:** `<your_jwt_token>`  
+
+Endpoints requiring admin authorization are marked with (Admin only).
 
 ## User Operations
 
-### Create New Customer (Scroll for create admin documentation)
+### Create New Customer
 
 **Method:** POST  
 **URL:** `http://localhost:3000/user/account`
 
-**Request Body (JSON):**
+**Request Body (JSON):**  
 ```JSON
 {
     "firstName": "Customer",
@@ -24,9 +33,26 @@ Admin management: To obtain the JWT token, you need to log in with admin credent
 }
 ```
 
+### Create New Admin
+
+**Method:** POST  
+**URL:** `http://localhost:3000/user/account`
+
+**Request Body (JSON):**  
+```JSON
+{
+    "firstName": "Admin",
+    "lastName": "Adminson",
+    "email": "admin@adminmail.com",
+    "password": "adminpassword",
+    "phoneNumber": "9999999999",
+    "role": "admin"
+}
+```
+
 ## Login Operations
 
-### Login User
+### Login Customer
 
 **Method:** POST  
 **URL:** `http://localhost:3000/login`
@@ -36,6 +62,19 @@ Admin management: To obtain the JWT token, you need to log in with admin credent
 {
     "email": "customer@example.com",
     "password": "customerpassword"
+}
+```
+
+### Login Admin
+
+**Method:** POST  
+**URL:** `http://localhost:3000/login`
+
+**Request Body (JSON):**  
+```JSON
+{
+    "email": "admin@adminmail.com",
+    "password": "adminpassword"
 }
 ```
 
@@ -114,48 +153,12 @@ Admin management: To obtain the JWT token, you need to log in with admin credent
 
 ## Admin Operations
 
-### Create New Admin
-
-**Method:** POST  
-**URL:** `http://localhost:3000/user/account`
-
-**Description:** Use the provided data to create a new admin.
-
-**Request Body (JSON):**
-```JSON
-{
-    "firstName": "Admin",
-    "lastName": "Adminson",
-    "email": "admin@adminmail.com",
-    "password": "adminpassword",
-    "phoneNumber": "9999999999",
-    "role": "admin"
-}
-```
-
-### Admin Login
-
-**Method:** POST  
-**URL:** `http://localhost:3000/login`
-
-**Request Body (JSON):**
-```JSON
-{
-    "email": "admin@adminmail.com",
-    "password": "adminpassword"
-}
-```
-
-## Admin Product Management
-
 ### Add New Product
 
 **Method:** POST  
 **URL:** `http://localhost:3000/admin/products`
 
-**Authorization:** Required (Admin only)  
-**Authentication Type:** Bearer Token  
-**Token:** <your_jwt_token>  
+**Authorization:** Required (Admin only)
 
 **Description:** Use the provided data to add a new product.
 
@@ -173,17 +176,15 @@ Admin management: To obtain the JWT token, you need to log in with admin credent
 **Method:** PUT  
 **URL:** `http://localhost:3000/admin/products/:productId`
 
-**Authorization:** Required (Admin only)  
-**Authentication Type:** Bearer Token  
-**Token:** <your_jwt_token>  
+**Authorization:** Required (Admin only)
 
 **Description:** Update an existing product using the product ID as a route parameter. Use the provided data to update a product.
 
 **Request Body (JSON):**
 ```JSON
 {
-    "title": "New Product Name",
-    "desc": "Description of the new product",
+    "title": "Updated Product Name",
+    "desc": "Updated description of the product",
     "price": 59
 }
 ```
@@ -193,22 +194,16 @@ Admin management: To obtain the JWT token, you need to log in with admin credent
 **Method:** DELETE  
 **URL:** `http://localhost:3000/admin/products/:productId`
 
-**Authorization:** Required (Admin only)  
-**Authentication Type:** Bearer Token  
-**Token:** <your_jwt_token>  
+**Authorization:** Required (Admin only)
 
 **Description:** Remove a product using the product ID as a route parameter.
-
-## Admin customer management
 
 ### Get All Users
 
 **Method:** GET  
 **URL:** `http://localhost:3000/admin/users`
 
-**Authorization:** Required (Admin only)  
-**Authentication Type:** Bearer Token  
-**Token:** <your_jwt_token>  
+**Authorization:** Required (Admin only)
 
 **Description:** Retrieves all users. This operation is restricted to admin users.
 
@@ -217,9 +212,7 @@ Admin management: To obtain the JWT token, you need to log in with admin credent
 **Method:** GET  
 **URL:** `http://localhost:3000/admin/users/profile`
 
-**Authorization:** Required (Admin only)  
-**Authentication Type:** Bearer Token  
-**Token:** <your_jwt_token>  
+**Authorization:** Required (Admin only)
 
 **Description:** Retrieves the profile of the logged-in user.
 
@@ -228,8 +221,6 @@ Admin management: To obtain the JWT token, you need to log in with admin credent
 **Method:** DELETE  
 **URL:** `http://localhost:3000/admin/users`
 
-**Authorization:** Required (Admin only)  
-**Authentication Type:** Bearer Token  
-**Token:** <your_jwt_token>  
+**Authorization:** Required (Admin only)
 
 **Description:** Delete the logged-in user.

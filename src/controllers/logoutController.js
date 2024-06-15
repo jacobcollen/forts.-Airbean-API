@@ -1,5 +1,4 @@
 import { logoutUser } from "../services/logout.js";
-import { findLoggedInUser } from "../utils/findLoggedUser.js";
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 
@@ -14,22 +13,9 @@ if (!secret) {
 
 export async function logoutController(req, res) {
   try {
-    const authHeader = req.headers.authorization;
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return res.status(401).json({ message: 'Unauthorized' });
-    }
+    const user = req.user;
 
-    const token = authHeader.split(' ')[1];
-
-    const decoded = jwt.verify(token, secret);
-    const userEmail = decoded.email;
-
-    const loggedInUser = await findLoggedInUser(userEmail);
-    if (!loggedInUser) {
-      throw new Error("No logged in user found");
-    }
-
-    const response = await logoutUser(loggedInUser._id);
+    const response = await logoutUser(user._id);
 
     return res.status(200).json(response);
   } catch (error) {
