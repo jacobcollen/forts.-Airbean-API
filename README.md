@@ -1,5 +1,4 @@
-# Airbean-API 
-## API Documentation
+# Airbean-API - API Documentation
 
 When starting the server with no db files, the products database will autofill. The database for users will insert a default admin and customer.
 
@@ -65,7 +64,7 @@ Endpoints requiring admin authorization are marked with (Admin only).
 }
 ```
 
-### Login Admin
+### Admin Login
 
 **Method:** POST  
 **URL:** `http://localhost:3000/login`
@@ -101,6 +100,8 @@ Endpoints requiring admin authorization are marked with (Admin only).
 **Method:** GET  
 **URL:** `http://localhost:3000/cart`
 
+**Authorization:** Required (Customer only)
+
 **Description:** Retrieve the cart of the logged-in user.
 
 ### Add Product to Cart
@@ -108,12 +109,16 @@ Endpoints requiring admin authorization are marked with (Admin only).
 **Method:** POST  
 **URL:** `http://localhost:3000/cart/:productId`
 
+**Authorization:** Required (Customer only)
+
 **Description:** Add a product to the logged-in user's cart using the product ID as a route parameter.
 
 ### Remove Product from Cart
 
 **Method:** DELETE  
 **URL:** `http://localhost:3000/cart/:productId`
+
+**Authorization:** Required (Customer only)
 
 **Description:** Remove a product from the logged-in user's cart using the product ID as a route parameter.
 
@@ -124,6 +129,8 @@ Endpoints requiring admin authorization are marked with (Admin only).
 **Method:** POST  
 **URL:** `http://localhost:3000/orders`
 
+**Authorization:** Required (Customer only)
+
 **Description:** Create a new order. This will empty the user's cart and add the items to the user's order history.
 
 ### Get Specific Order
@@ -131,7 +138,9 @@ Endpoints requiring admin authorization are marked with (Admin only).
 **Method:** GET  
 **URL:** `http://localhost:3000/orders/:orderId`
 
-**Description:** Retrieve details of a specific order using the order ID provided in the response from the POST operation.
+**Authorization:** Required (Customer only)
+
+**Description:** Retrieve details of a specific order using the order ID.
 
 ## Order History
 
@@ -139,6 +148,8 @@ Endpoints requiring admin authorization are marked with (Admin only).
 
 **Method:** GET  
 **URL:** `http://localhost:3000/order-history`
+
+**Authorization:** Required (Customer only)
 
 **Description:** Retrieve the order history of the logged-in user.
 
