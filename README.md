@@ -152,9 +152,9 @@ Admin management: To obtain the JWT token, you need to log in with admin credent
 **Method:** POST  
 **URL:** `http://localhost:3000/admin/products`
 
-**Authorization:** Required (Admin only)
-**Authentication Type:** Bearer Token
-**Token:** <your_jwt_token>
+**Authorization:** Required (Admin only)  
+**Authentication Type:** Bearer Token  
+**Token:** <your_jwt_token>  
 
 **Description:** Use the provided data to add a new product.
 
@@ -172,9 +172,9 @@ Admin management: To obtain the JWT token, you need to log in with admin credent
 **Method:** PUT  
 **URL:** `http://localhost:3000/admin/products/:productId`
 
-**Authorization:** Required (Admin only)
-**Authentication Type:** Bearer Token
-**Token:** <your_jwt_token>
+**Authorization:** Required (Admin only)  
+**Authentication Type:** Bearer Token  
+**Token:** <your_jwt_token>  
 
 **Description:** Update an existing product using the product ID as a route parameter. Use the provided data to update a product.
 
@@ -192,9 +192,9 @@ Admin management: To obtain the JWT token, you need to log in with admin credent
 **Method:** DELETE  
 **URL:** `http://localhost:3000/admin/products/:productId`
 
-**Authorization:** Required (Admin only)
-**Authentication Type:** Bearer Token
-**Token:** <your_jwt_token>
+**Authorization:** Required (Admin only)  
+**Authentication Type:** Bearer Token  
+**Token:** <your_jwt_token>  
 
 **Description:** Remove a product using the product ID as a route parameter.
 
@@ -205,9 +205,9 @@ Admin management: To obtain the JWT token, you need to log in with admin credent
 **Method:** GET  
 **URL:** `http://localhost:3000/admin/users`
 
-**Authorization:** Required (Admin only)
-**Authentication Type:** Bearer Token
-**Token:** <your_jwt_token>
+**Authorization:** Required (Admin only)  
+**Authentication Type:** Bearer Token  
+**Token:** <your_jwt_token>  
 
 **Description:** Retrieves all users. This operation is restricted to admin users.
 
@@ -216,9 +216,9 @@ Admin management: To obtain the JWT token, you need to log in with admin credent
 **Method:** GET  
 **URL:** `http://localhost:3000/admin/users/profile`
 
-**Authorization:** Required (Admin only)
-**Authentication Type:** Bearer Token
-**Token:** <your_jwt_token>
+**Authorization:** Required (Admin only)  
+**Authentication Type:** Bearer Token  
+**Token:** <your_jwt_token>  
 
 **Description:** Retrieves the profile of the logged-in user.
 
@@ -227,8 +227,8 @@ Admin management: To obtain the JWT token, you need to log in with admin credent
 **Method:** DELETE  
 **URL:** `http://localhost:3000/admin/users`
 
-**Authorization:** Required (Admin only)
-**Authentication Type:** Bearer Token
-**Token:** <your_jwt_token>
+**Authorization:** Required (Admin only)  
+**Authentication Type:** Bearer Token  
+**Token:** <your_jwt_token>  
 
 **Description:** Delete the logged-in user.
