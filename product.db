@@ -1,8 +1,8 @@
-{"title":"Cortado","desc":"Bryggd på månadens bönor.","price":39,"_id":"6yztWpBd9KghJQDb"}
+{"title":"New Product Name","desc":"Description of the new product","price":59,"_id":"6yztWpBd9KghJQDb","modifiedAt":{"$$date":1718415915880}}
+{"title":"Bajsmacka","desc":"Macka med bajja på","price":250,"createdAt":{"$$date":1718414082123},"_id":"GesmcnZJUZ5owhiQ"}
 {"title":"Latte Macchiato","desc":"Bryggd på månadens bönor.","price":49,"_id":"Mo0yWii9cajOywSW"}
 {"title":"Caffè Doppio","desc":"Bryggd på månadens bönor.","price":49,"_id":"aDFnvFVDSd8xf317"}
 {"title":"New Product Name","desc":"Description of the new product","price":59,"createdAt":{"$$date":1718413793696},"_id":"fBKNirwz8fedTkDD"}
 {"title":"Bryggkaffe","desc":"Bryggd på månadens bönor.","price":39,"_id":"nZDt5gDMOZGl4nCC"}
 {"title":"Kaffe Latte","desc":"Bryggd på månadens bönor.","price":54,"_id":"ntzfd0N8qvMemr5x"}
 {"title":"Cappuccino","desc":"Bryggd på månadens bönor.","price":49,"_id":"zocZWA1ZSKahoNrS"}
-{"title":"Bajsmacka","desc":"Macka med bajja på","price":250,"createdAt":{"$$date":1718414082123},"_id":"GesmcnZJUZ5owhiQ"}

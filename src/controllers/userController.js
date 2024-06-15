@@ -1,6 +1,15 @@
-import { getAllUsers, getUserById, updateUser, deleteUser } from "../services/user.js";
+import { getAllUsers, getUserById, updateUser, deleteUser, createUser } from "../services/user.js";
 
-// Controller function to get all users
+export async function createUserController(req, res) {
+  try {
+    const userData = req.body;
+    const { message, newUser } = await createUser(userData);
+    res.status(201).json({ message, newUser });
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error" });
+  }
+}
+
 export async function getAllUsersController(req, res) {
   try {
     const users = await getAllUsers();
@@ -10,7 +19,6 @@ export async function getAllUsersController(req, res) {
   }
 }
 
-// Controller function to get user by ID
 export async function getUserByIdController(req, res) {
   try {
     const userId = req.params.id;
@@ -28,7 +36,6 @@ export async function getUserByIdController(req, res) {
   }
 }
 
-// Controller function to update user
 export async function updateUserController(req, res) {
   try {
     const userId = req.params.id;
@@ -44,7 +51,6 @@ export async function updateUserController(req, res) {
   }
 }
 
-// Controller function to delete user
 export async function deleteUserController(req, res) {
   try {
     const userId = req.params.id;

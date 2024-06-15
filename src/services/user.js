@@ -27,10 +27,10 @@ async function initializeUserDatabase() {
       };
       await userDatabase.insert(defaultAdmin);
       await userDatabase.insert(defaultCustomer);
-      console.log("User database initialized with default users.");
+      console.log("User Database Initialized with Default Users.");
     }
   } catch (error) {
-    console.error("Failed to initialize user database:", error);
+    console.error("Failed to Initialize User Database:", error);
   }
 }
 
@@ -38,10 +38,13 @@ async function initializeUserDatabase() {
 async function createUser(userData) {
   try {
     const newUser = await userDatabase.insert(userData);
-    const message = `User Created. Welcome ${newUser.firstName}`;
+    const role = newUser.role;
+    const message = role === "admin" ? 
+      `Admin Account Created. Welcome ${newUser.firstName}!` : 
+      `Account Created. Welcome ${newUser.firstName}!`;
     return { message, newUser };
   } catch (error) {
-    throw new Error("Failed to create user");
+    throw new Error("Failed to Create Account");
   }
 }
 
@@ -49,7 +52,7 @@ async function getAllUsers() {
   try {
     const users = await userDatabase.find({});
     if (users.length === 0) {
-      throw new Error("No users found");
+      throw new Error("No Users Found");
     }
     return users;
   } catch (error) {
@@ -73,10 +76,10 @@ async function updateUser(id, updatedUserData) {
   try {
     const user = await userDatabase.findOne({ _id: id });
     if (!user) {
-      throw new Error("User not found");
+      throw new Error("User Not Found");
     }
     await userDatabase.update({ _id: id }, { $set: updatedUserData });
-    return "User updated successfully";
+    return "User Updated Successfully";
   } catch (error) {
     throw Error(error.message);
   }
@@ -86,9 +89,9 @@ async function deleteUser(id) {
   try {
     const numRemoved = await userDatabase.remove({ _id: id });
     if (numRemoved === 0) {
-      throw new Error("User not found");
+      throw new Error("User Not Found");
     }
-    return "User deleted successfully";
+    return "User Deleted Successfully";
   } catch (error) {
     throw Error(error.message);
   }
@@ -99,7 +102,7 @@ async function findUserByEmail(email) {
     const user = await userDatabase.findOne({ email });
     return user;
   } catch (error) {
-    throw new Error("Failed to find user by email");
+    throw new Error("Failed to Find User by Email");
   }
 }
 

@@ -7,6 +7,7 @@ const router = express.Router();
 
 router.get("/", getAllProductsController);
 router.get("/:id", getProductByIdController);
+
 // POST Create a new product (admin only)
 router.post("/", authenticateToken, verifyAdmin, validateProduct, createProductController);
 router.put("/:id", authenticateToken, verifyAdmin, validateProduct, updateProductController);

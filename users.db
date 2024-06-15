@@ -1,6 +1,13 @@
+{"firstName":"frida","lastName":"Adminson","email":"frida@adminmail.com","password":"adminpassword","phoneNumber":"9999999999","role":"admin","_id":"0q6OlP6NoMA2LWfP"}
 {"firstName":"Admin","lastName":"Adminson","email":"admin@adminmail.com","password":"adminpassword","phoneNumber":"9999999999","role":"admin","loggedIn":false,"_id":"ANjWJKg8HZl6sOsF"}
 {"firstName":"Mamma","lastName":"Adminson","email":"mamma@adminmail.com","password":"jacobadminpassword","phoneNumber":"5555555555","role":"admin","_id":"Kv5VWf5eVn7nkE9B","loggedIn":true}
 {"firstName":"Jacob","lastName":"Collen","email":"Jacob@example.com","password":"jacobpassword","phoneNumber":"7777777777","role":"user","_id":"Nk3DzZcZuTomgEdZ","loggedIn":true}
+{"firstName":"Jacob","lastName":"Adminson","email":"jakky@adminmail.com","password":"adminpassword","phoneNumber":"9999999999","role":"admin","_id":"Q1222lcrS0wJ3piL"}
 {"firstName":"Jacob","lastName":"Adminson","email":"jacob@adminmail.com","password":"jacobadminpassword","phoneNumber":"5555555555","role":"admin","_id":"bxgjyLBJ8Oa7YCjh"}
+{"firstName":"fridis","lastName":"Customerson","email":"fridis@example.com","password":"customerpassword","phoneNumber":"8888888888","role":"user","_id":"cueEytRemyuQD4ln","loggedIn":true}
+{"firstName":"elis","lastName":"Customerson","email":"elis@example.com","password":"customerpassword","phoneNumber":"8888888888","role":"user","_id":"culBUVlJkGGCkIEN"}
+{"firstName":"Admin","lastName":"Adminson","email":"lenny@adminmail.com","password":"adminpassword","phoneNumber":"9999999999","role":"admin","_id":"eIiZXvWXdS6r9rQN"}
+{"firstName":"Admin","lastName":"Adminson","email":"admin@example.com","password":"adminpassword","phoneNumber":"9999999999","role":"admin","_id":"jnQIPtDLVUTSjMeJ"}
+{"firstName":"sven","lastName":"Customerson","email":"sven@example.com","password":"customerpassword","phoneNumber":"8888888888","role":"user","_id":"oOpXEvAWmkh1wOMv"}
 {"firstName":"Customer","lastName":"Doe","email":"customer@example.com","password":"customerpassword","phoneNumber":"8888888888","role":"customer","loggedIn":false,"_id":"r4vf8sD15HIuUnxG"}
 {"firstName":"Marcus","lastName":"Adminson","email":"marcus@adminmail.com","password":"jacobadminpassword","phoneNumber":"5555555555","role":"admin","_id":"vzJLQUSVeSJzHjj2"}
