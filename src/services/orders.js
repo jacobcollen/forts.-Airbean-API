@@ -1,7 +1,10 @@
-import { createOrUpdateOrderHistory } from "./orderHistory.js";
-import { userDatabase } from "../services/user.js";
-import { orderHistoryDb } from "./orderHistory.js";
+import { createOrUpdateOrderHistory, orderHistoryDb } from "./orderHistory.js";
+import { userDatabase } from "./user.js";
 import { findLoggedInUser } from "../utils/findLoggedUser.js";
+
+const calculateTotalPrice = (cart) => {
+  return cart.reduce((total, item) => total + item.price * item.quantity, 0);
+};
 
 const createOrder = async (cart) => {
   try {
@@ -63,7 +66,7 @@ const createOrder = async (cart) => {
       orders: [newOrder],
     };
 
-    const result = await createOrUpdateOrderHistory(orderHistoryData);
+    await createOrUpdateOrderHistory(orderHistoryData);
 
     cart.length = 0; // Clear the cart
 
@@ -81,6 +84,7 @@ const createOrder = async (cart) => {
     };
   }
 };
+
 
 const getOrderById = async (orderId) => {
   try {
@@ -125,10 +129,6 @@ const getOrderById = async (orderId) => {
       response: { error: "Failed to fetch order: " + error.message },
     };
   }
-};
-
-const calculateTotalPrice = (cart) => {
-  return cart.reduce((total, item) => total + item.price * item.quantity, 0);
 };
 
 export { createOrder, getOrderById };

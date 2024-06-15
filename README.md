@@ -2,9 +2,11 @@
 
 When starting the server with no db files, the products database will autofill. The database for users will insert a default admin and customer.
 
+Admin management: To obtain the JWT token, you need to log in with admin credentials using the login endpoint and copy the token provided in the response. This token will then be used in the Authorization header for the admin only requests.
+
 ## User Operations
 
-### Create New User Customer (Scroll for create admin documentation)
+### Create New Customer (Scroll for create admin documentation)
 
 **Method:** POST  
 **URL:** `http://localhost:3000/user/account`
@@ -17,33 +19,9 @@ When starting the server with no db files, the products database will autofill. 
     "email": "customer@example.com",
     "password": "customerpassword",
     "phoneNumber": "8888888888",
-    "role": "customer"
+    "role": "user"
 }
 ```
-
-### Get All Users
-
-**Method:** GET  
-**URL:** `http://localhost:3000/user`
-
-**Authorization:** Required (Admin only)  
-**Description:** Retrieves all users. This operation is restricted to admin users.
-
-### Get Profile
-
-**Method:** GET  
-**URL:** `http://localhost:3000/user/profile`
-
-**Authorization:** Required  
-**Description:** Retrieves the profile of the logged-in user.
-
-### Delete User
-
-**Method:** DELETE  
-**URL:** `http://localhost:3000/user`
-
-**Authorization:** Required  
-**Description:** Delete the logged-in user.
 
 ## Login Operations
 
@@ -66,19 +44,6 @@ When starting the server with no db files, the products database will autofill. 
 **URL:** `http://localhost:3000/logout`
 
 **Description:** Logout the currently logged-in user.
-
-### Admin Login
-
-**Method:** POST  
-**URL:** `http://localhost:3000/login`
-
-**Request Body (JSON):**
-```JSON
-{
-    "email": "admin@adminmail.com",
-    "password": "adminpassword"
-}
-```
 
 ## Products
 
@@ -167,43 +132,103 @@ When starting the server with no db files, the products database will autofill. 
 }
 ```
 
-## Product Management
+### Admin Login
+
+**Method:** POST  
+**URL:** `http://localhost:3000/login`
+
+**Request Body (JSON):**
+```JSON
+{
+    "email": "admin@adminmail.com",
+    "password": "adminpassword"
+}
+```
+
+## Admin Product Management
 
 ### Add New Product
 
 **Method:** POST  
-**URL:** `http://localhost:3000/products`
+**URL:** `http://localhost:3000/admin/products`
+
+**Authorization:** Required (Admin only)
+**Authentication Type:** Bearer Token
+**Token:** <your_jwt_token>
 
 **Description:** Use the provided data to add a new product.
 
 **Request Body (JSON):**
 ```JSON
 {
-    "name": "NewProduct",
-    "description": "Description of the new product",
-    "price": 55 
+    "title": "New Product Name",
+    "desc": "Description of the new product",
+    "price": 59
 }
 ```
 
 ### Update Existing Product
 
 **Method:** PUT  
-**URL:** `http://localhost:3000/products/:productId`
+**URL:** `http://localhost:3000/admin/products/:productId`
+
+**Authorization:** Required (Admin only)
+**Authentication Type:** Bearer Token
+**Token:** <your_jwt_token>
 
 **Description:** Update an existing product using the product ID as a route parameter. Use the provided data to update a product.
 
 **Request Body (JSON):**
 ```JSON
 {
-    "name": "UpdatedProduct",
-    "description": "Updated description of the product",
-    "price": 65
+    "title": "New Product Name",
+    "desc": "Description of the new product",
+    "price": 59
 }
 ```
 
 ### Remove Product
 
 **Method:** DELETE  
-**URL:** `http://localhost:3000/products/:productId`
+**URL:** `http://localhost:3000/admin/products/:productId`
+
+**Authorization:** Required (Admin only)
+**Authentication Type:** Bearer Token
+**Token:** <your_jwt_token>
 
 **Description:** Remove a product using the product ID as a route parameter.
+
+## Admin customer management
+
+### Get All Users
+
+**Method:** GET  
+**URL:** `http://localhost:3000/admin/users`
+
+**Authorization:** Required (Admin only)
+**Authentication Type:** Bearer Token
+**Token:** <your_jwt_token>
+
+**Description:** Retrieves all users. This operation is restricted to admin users.
+
+### Get Profile
+
+**Method:** GET  
+**URL:** `http://localhost:3000/admin/users/profile`
+
+**Authorization:** Required (Admin only)
+**Authentication Type:** Bearer Token
+**Token:** <your_jwt_token>
+
+**Description:** Retrieves the profile of the logged-in user.
+
+### Delete User
+
+**Method:** DELETE  
+**URL:** `http://localhost:3000/admin/users`
+
+**Authorization:** Required (Admin only)
+**Authentication Type:** Bearer Token
+**Token:** <your_jwt_token>
+
+**Description:** Delete the logged-in user.

@@ -5,7 +5,7 @@ const orderHistoryDb = new nedb({
   autoload: true,
 });
 
-// Function to create or update order history
+// Function create or update order history
 async function createOrUpdateOrderHistory(orderHistoryData) {
   try {
     const existingOrderHistory = await orderHistoryDb.findOne({
@@ -13,10 +13,9 @@ async function createOrUpdateOrderHistory(orderHistoryData) {
     });
 
     if (existingOrderHistory) {
-      // Update the existing order history
       existingOrderHistory.orders.push(orderHistoryData.orders[0]);
       existingOrderHistory.totalPrice += orderHistoryData.totalPrice;
-      existingOrderHistory.firstName = orderHistoryData.firstName; // Ensure firstName is updated
+      existingOrderHistory.firstName = orderHistoryData.firstName;
 
       await orderHistoryDb.update(
         { userId: orderHistoryData.userId },

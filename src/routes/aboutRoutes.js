@@ -1,11 +1,10 @@
 import { Router } from "express";
 import { aboutInfo } from "../../config/about.js";
-import { bodyContentBlocker } from "../middleware/bodyContentBlocker.js";
 
 const router = Router();
 
 //GET about page
-router.get("/", bodyContentBlocker, (req, res) => {
+router.get("/", (req, res) => {
   res.json(aboutInfo);
 });
 

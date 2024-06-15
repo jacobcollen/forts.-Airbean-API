@@ -1,20 +1,13 @@
 import { Router } from "express";
 import { getProductById } from "../services/product.js";
-import { bodyContentBlocker } from "../middleware/bodyContentBlocker.js";
 import { findLoggedInUser } from "../utils/findLoggedUser.js";
 
 const router = Router({ mergeParams: true });
-const carts = {}; // Object to store carts for each user
+const carts = {};
 
 // Calculate total price of items in the cart
 const calculateTotalPrice = (cart) => {
-  let total = cart.reduce((sum, item) => sum + item.price, 0);
-  if (cart.length >= 5) {
-    total *= 0.8;
-  } else if (cart.length >= 3) {
-    total *= 0.9;
-  }
-  return total;
+  return cart.reduce((total, item) => total + item.price * item.quantity, 0);
 };
 
 // Find or create cart
@@ -26,12 +19,13 @@ const getCart = (userId) => {
 };
 
 // GET cart
-router.get("/", bodyContentBlocker, async (req, res, next) => {
+router.get("/", async (req, res, next) => {
   try {
     const loggedInUser = await findLoggedInUser();
     if (!loggedInUser) {
-      return res.status(404).json({ message: "No logged in user found" });
+      return res.status(401).json({ message: "User not logged in" });
     }
+
     const userId = loggedInUser._id;
     const cart = getCart(userId);
 
@@ -57,12 +51,13 @@ router.get("/", bodyContentBlocker, async (req, res, next) => {
 });
 
 // POST add product to cart
-router.post("/:productId", bodyContentBlocker, async (req, res, next) => {
+router.post("/:productId", async (req, res, next) => {
   try {
     const loggedInUser = await findLoggedInUser();
     if (!loggedInUser) {
-      return res.status(404).json({ message: "No logged in user found" });
+      return res.status(401).json({ message: "User not logged in" });
     }
+
     const userId = loggedInUser._id;
     const productId = req.params.productId;
     const foundItem = await getProductById(productId);
@@ -95,12 +90,13 @@ router.post("/:productId", bodyContentBlocker, async (req, res, next) => {
 });
 
 // DELETE delete product from cart
-router.delete("/:productId", bodyContentBlocker, async (req, res, next) => {
+router.delete("/:productId", async (req, res, next) => {
   try {
     const loggedInUser = await findLoggedInUser();
     if (!loggedInUser) {
-      return res.status(404).json({ message: "No logged in user found" });
+      return res.status(401).json({ message: "User not logged in" });
     }
+
     const userId = loggedInUser._id;
     const productId = req.params.productId;
     const cart = getCart(userId);
@@ -134,3 +130,4 @@ router.delete("/:productId", bodyContentBlocker, async (req, res, next) => {
 
 export default router;
 export { getCart, calculateTotalPrice };
+

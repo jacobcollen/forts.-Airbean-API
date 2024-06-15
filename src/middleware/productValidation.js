@@ -1,17 +1,13 @@
-// Placeholder validation middleware functions
-
-import productSchema from "../models/productSchema.js";
-
-// Validate product data
 export function validateProduct(req, res, next) {
-  const { error } = productSchema.validate(req.body, { abortEarly: false });
+  const { title, desc, price } = req.body;
 
-  if (!error) {
-    next();
-  } else {
-    res.status(400).json({
-      message: "Validation error",
-      errors: error.details.map((detail) => detail.message),
-    });
+  if (!title || !desc || !price) {
+      return res.status(400).json({ message: "All fields are required: title, desc, price" });
   }
+
+  if (typeof price !== "number") {
+      return res.status(400).json({ message: "Price must be a number" });
+  }
+
+  next();
 }

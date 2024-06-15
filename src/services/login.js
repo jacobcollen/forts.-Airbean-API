@@ -1,52 +1,22 @@
-import { findCustomerByEmail, getAllCustomers } from "./customers.js";
-import { findAdminByEmail } from "./admin.js";
+import { findUserByEmail } from "./user.js";
 import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+dotenv.config();
 
 const secret = process.env.JWT_SECRET;
 
-// Function to handle customer login
-export async function loginCustomer(email, password) {
+// Function to handle user login (both admin and customer)
+export async function loginUser(email, password) {
+  const user = await findUserByEmail(email);
 
-  const customer = await findCustomerByEmail(email);
-
-  if (!customer) {
+  if (!user) {
     throw new Error("Invalid email");
   }
 
-  if (customer.password === password) {
+  if (user.password === password) {
+    const token = jwt.sign({ email: user.email, role: user.role }, secret, { expiresIn: '1h' });
 
-    const customers = await getAllCustomers();
-    const loggedInCustomer = customers.find((cust) => cust.loggedIn);
-
-    if (loggedInCustomer) {
-
-      await updateCustomerLoggedInStatus(loggedInCustomer._id, false);
-    }
-
-    const updatedCustomer = await updateCustomerLoggedInStatus(customer._id, true);
-
-    const token = jwt.sign({ email: customer.email, role: "customer" }, secret, { expiresIn: '1h' });
-
-    return { message: "Login successful", customer: updatedCustomer, token };
-  } else {
-    throw new Error("Invalid password");
-  }
-}
-
-// Function to handle admin login
-export async function loginAdmin(email, password) {
-
-  const admin = await findAdminByEmail(email);
-
-  if (!admin) {
-    throw new Error("Invalid email");
-  }
-
-  if (password === admin.password) {
-    
-    const token = jwt.sign({ email: admin.email, role: "admin" }, secret, { expiresIn: '1h' });
-
-    return { message: "Admin logged in successfully", token };
+    return { message: "Login successful", user, token };
   } else {
     throw new Error("Invalid password");
   }
