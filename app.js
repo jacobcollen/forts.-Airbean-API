@@ -15,6 +15,7 @@ import aboutRouter from "./src/routes/aboutRoutes.js";
 import ordersRouter from "./src/routes/ordersRoutes.js";
 import orderHistoryRouter from "./src/routes/orderHistoryRoutes.js";
 import productRouter from "./src/routes/productRoutes.js";
+import campaignRouter from "./src/routes/campaignRoutes.js";
 
 import { authenticateToken, verifyAdmin, verifyCustomer } from "./src/middleware/auth.js";
 
@@ -39,6 +40,7 @@ app.use("/order-history", authenticateToken, verifyCustomer, orderHistoryRouter)
 // Routes (Protected for admins)
 app.use("/admin/products", authenticateToken, verifyAdmin, productRouter);
 app.use("/admin/users", authenticateToken, verifyAdmin, userRouter);
+app.use("/admin/campaigns", authenticateToken, verifyAdmin, campaignRouter);
 
 // Initialize databases with default data if empty, then start the server
 const PORT = process.env.PORT || 3000;

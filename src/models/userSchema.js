@@ -30,9 +30,9 @@ const userSchema = Joi.object({
   phoneNumber: Joi.number().messages({
     "number.base": '"phoneNumber" must be a number',
   }),
-  role: Joi.string().valid('user', 'admin').default('user').messages({
-    "any.only": '"role" must be either "user" or "admin"'
-  })
-}).options({ allowUnknown: false }); // Disallow unknown properties
+  role: Joi.string().valid("user", "admin").default("user").messages({
+    "any.only": '"role" must be either "user" or "admin"',
+  }),
+}).options({ allowUnknown: false });
 
 export default userSchema;

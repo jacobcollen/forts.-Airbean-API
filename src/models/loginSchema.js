@@ -16,6 +16,6 @@ const loginSchema = Joi.object({
       '"password" can only contain letters (a-z, A-Z) and numbers (1-9)',
     "string.min": '"password" should have a minimum length of 6 characters',
   }),
-}).options({ allowUnknown: false }); // Disallow unknown properties
+}).options({ allowUnknown: false });
 
 export default loginSchema;

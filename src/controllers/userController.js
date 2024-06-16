@@ -1,4 +1,10 @@
-import { getAllUsers, getUserById, updateUser, deleteUser, createUser } from "../services/user.js";
+import {
+  getAllUsers,
+  getUserById,
+  updateUser,
+  deleteUser,
+  createUser,
+} from "../services/user.js";
 
 export async function createUserController(req, res) {
   try {

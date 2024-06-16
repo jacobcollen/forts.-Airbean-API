@@ -14,7 +14,9 @@ export async function loginUser(email, password) {
   }
 
   if (user.password === password) {
-    const token = jwt.sign({ email: user.email, role: user.role }, secret, { expiresIn: '1h' });
+    const token = jwt.sign({ email: user.email, role: user.role }, secret, {
+      expiresIn: "1h",
+    });
 
     return { message: "Login successful", user, token };
   } else {

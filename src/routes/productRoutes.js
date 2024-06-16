@@ -1,5 +1,11 @@
-import express from 'express';
-import { getAllProductsController, getProductByIdController, createProductController, updateProductController, deleteProductController } from '../controllers/productController.js';
+import express from "express";
+import {
+  getAllProductsController,
+  getProductByIdController,
+  createProductController,
+  updateProductController,
+  deleteProductController,
+} from "../controllers/productController.js";
 import { authenticateToken, verifyAdmin } from "../middleware/auth.js";
 import { validateProduct } from "../middleware/productValidation.js";
 

@@ -1,6 +1,6 @@
-import jwt from 'jsonwebtoken';
+import jwt from "jsonwebtoken";
 import { findUserByEmail } from "../services/user.js";
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
 
 dotenv.config();
 
@@ -13,8 +13,8 @@ if (!secret) {
 
 // Middleware to verify JWT-token
 export function authenticateToken(req, res, next) {
-  const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1];
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
 
   if (!token) return res.sendStatus(401);
 
@@ -35,7 +35,7 @@ export async function verifyAdmin(req, res, next) {
   try {
     const user = req.user;
 
-    if (user.role === 'admin') {
+    if (user.role === "admin") {
       next();
     } else {
       res.status(403).json({ message: "Access Forbidden: Admins Only" });
@@ -51,7 +51,7 @@ export async function verifyCustomer(req, res, next) {
   try {
     const user = req.user;
 
-    if (user.role === 'customer') {
+    if (user.role === "customer") {
       next();
     } else {
       res.status(403).json({ message: "Access Forbidden: Customers Only" });

@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
-import dotenv from 'dotenv';
-import loginSchema from '../models/loginSchema.js';
-import { findUserByEmail } from '../services/user.js';
+import dotenv from "dotenv";
+import loginSchema from "../models/loginSchema.js";
+import { findUserByEmail } from "../services/user.js";
 
 dotenv.config();
 const secret = process.env.JWT_SECRET;
@@ -25,11 +25,24 @@ export async function loginController(req, res) {
       return res.status(400).json({ message: "Invalid email or password" });
     }
 
-    const token = jwt.sign({ email: user.email, role: user.role, _id: user._id }, secret, { expiresIn: '1h' });
-    return res.status(200).json({ message: `${user.role.charAt(0).toUpperCase() + user.role.slice(1)} logged in successfully`, token });
-
+    const token = jwt.sign(
+      { email: user.email, role: user.role, _id: user._id },
+      secret,
+      { expiresIn: "1h" }
+    );
+    return res
+      .status(200)
+      .json({
+        message: `${
+          user.role.charAt(0).toUpperCase() + user.role.slice(1)
+        } logged in successfully`,
+        token,
+      });
   } catch (error) {
-    const statusCode = error.message === "Invalid email" || error.message === "Invalid password" ? 400 : 500;
+    const statusCode =
+      error.message === "Invalid email" || error.message === "Invalid password"
+        ? 400
+        : 500;
     return res.status(statusCode).json({ message: error.message });
   }
 }

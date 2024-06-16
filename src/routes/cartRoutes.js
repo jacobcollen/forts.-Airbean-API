@@ -130,4 +130,3 @@ router.delete("/:productId", async (req, res, next) => {
 
 export default router;
 export { getCart, calculateTotalPrice };
-

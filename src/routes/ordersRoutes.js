@@ -13,13 +13,23 @@ router.post("/", async (req, res) => {
       return res.status(401).json({ message: "User not logged in" });
     }
 
-    const cart = getCart(loggedInUser._id);
+    const cart = await getCart(loggedInUser._id);
     const totalPrice = calculateTotalPrice(cart);
 
-    const result = await createOrder(cart);
-    res.status(result.status).json(result.response);
+    const orderData = {
+      userId: loggedInUser._id,
+      cart: cart,
+      totalPrice: totalPrice,
+    };
+
+    const result = await createOrder(orderData);
+    res
+      .status(result.status)
+      .json({ ...result.response, totalPrice: totalPrice });
   } catch (error) {
-    res.status(500).json({ message: "Failed to place order", error: error.message });
+    res
+      .status(500)
+      .json({ message: "Failed to place order", error: error.message });
   }
 });
 
@@ -35,7 +45,9 @@ router.get("/:orderId", async (req, res) => {
     const result = await getOrderById(orderId);
     res.status(result.status).json(result.response);
   } catch (error) {
-    res.status(500).json({ message: "Failed to fetch order", error: error.message });
+    res
+      .status(500)
+      .json({ message: "Failed to fetch order", error: error.message });
   }
 });
 

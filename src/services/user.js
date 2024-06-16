@@ -39,9 +39,10 @@ async function createUser(userData) {
   try {
     const newUser = await userDatabase.insert(userData);
     const role = newUser.role;
-    const message = role === "admin" ? 
-      `Admin Account Created. Welcome ${newUser.firstName}!` : 
-      `Account Created. Welcome ${newUser.firstName}!`;
+    const message =
+      role === "admin"
+        ? `Admin Account Created. Welcome ${newUser.firstName}!`
+        : `Account Created. Welcome ${newUser.firstName}!`;
     return { message, newUser };
   } catch (error) {
     throw new Error("Failed to Create Account");

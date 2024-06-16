@@ -194,9 +194,9 @@ Endpoints requiring admin authorization are marked with (Admin only).
 **Request Body (JSON):**
 ```JSON
 {
-    "title": "Updated Product Name",
-    "desc": "Updated description of the product",
-    "price": 59
+    "title": "Modified product name",
+    "desc": "Modified product description",
+    "price": 39
 }
 ```
 
@@ -235,3 +235,31 @@ Endpoints requiring admin authorization are marked with (Admin only).
 **Authorization:** Required (Admin only)
 
 **Description:** Delete the logged-in user.
+
+## Campaign Operations
+
+### Create New Campaign
+
+**Method:** POST  
+**URL:** `http://localhost:3000/admin/campaigns`
+
+**Authorization:** Required (Admin only)
+
+**Description:** Use the provided data to create a new campaign. Ensure that all products exist in product.db before creating the campaign.
+
+**Request Body (JSON):**
+```JSON
+{
+    "products": ["<productId1>", "<productId2>"],
+    "campaignPrice": 99
+}
+```
+
+### Get All Campaigns
+
+**Method:** GET  
+**URL:** `http://localhost:3000/admin/campaigns`
+
+**Authorization:** Required (Admin only)
+
+**Description:** Retrieve all created campaigns.

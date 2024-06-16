@@ -34,7 +34,7 @@ const createOrder = async (cart) => {
     }
 
     const prelTime = new Date();
-    const prelDelTime = new Date(prelTime.getTime() + 20 * 60000); // 20 minutes from placed order
+    const prelDelTime = new Date(prelTime.getTime() + 20 * 60000);
 
     function formatDate(date) {
       const year = date.getUTCFullYear();
@@ -51,7 +51,7 @@ const createOrder = async (cart) => {
     const deliveryTime = formatDate(prelDelTime);
 
     const newOrder = {
-      orderId: Math.floor(Math.random() * 1000000), // generate random orderId
+      orderId: Math.floor(Math.random() * 1000000),
       userId,
       items: [...cart],
       totalPrice: calculateTotalPrice(cart),
@@ -68,7 +68,7 @@ const createOrder = async (cart) => {
 
     await createOrUpdateOrderHistory(orderHistoryData);
 
-    cart.length = 0; // Clear the cart
+    cart.length = 0;
 
     return {
       status: 201,
@@ -84,7 +84,6 @@ const createOrder = async (cart) => {
     };
   }
 };
-
 
 const getOrderById = async (orderId) => {
   try {
