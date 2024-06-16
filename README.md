@@ -1,4 +1,5 @@
-# Airbean-API - API Documentation
+# Airbean-API
+## - API Documentation
 
 When starting the server with no db files, the products database will autofill. The database for users will insert a default admin and customer.
 
